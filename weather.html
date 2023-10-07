@@ -8,7 +8,6 @@
     <title>Check Weather anywhere</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
     <style>
         * {
             margin: 0;
@@ -28,9 +27,11 @@
             filter: brightness(0.6);
         }
 
+        /* Add the CSS rule to remove the border below the input element */
         .weathercontainer input {
-            width: 65%;
-            padding: 10px;
+            width: 80%;
+            padding: 15px;
+            border-radius: 20px;
         }
 
         .fa-stack i {
@@ -42,26 +43,185 @@
             height: 34px;
             color: white;
             margin-bottom: 29px;
-            padding: -2px
+
+
+            border-radius: 17px;
+            padding: 8px;
+            /* Remove padding property from here */
+        }
+
+        .details {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            margin: 25px 150px;
+            padding: 12px;
+            display: none;
+        }
+
+        .details .col {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .weather {
+            margin-right: 66px;
+            display: none;
+        }
+
+        .temp {
+            color: white;
+            font-size: 50px;
+        }
+
+        .city {
+            font-size: 36px;
+            color: white;
+        }
+
+        .col p {
+            color: white;
+            font-size: 20px;
+            margin-left: 22px;
+        }
+        .error{
+            text-align:center;
+            margin: 20px 0px;
+            color: white;
+            padding: 12px;
+            display: none;
+        }
+        .error p{
+            margin-top: 6px;
         }
     </style>
 </head>
 
 <body>
+    <header>
+        <div class="navbar">
+            <div class="heading">
+                <img src="logo.jpg" alt="no image">
+                <h2 class="navtitle">WeatherSite</h2>
+            </div>
+            <ul>
+                <li class="navlinks"><a href="/">Home</a></li>
+                <li class="nav"><a href="about.html">About</a></li>
+            </ul>
+            </nav>
+    </header>
     <main>
         <div class="weathercontainer">
-            <label for="search">
-                <input type="text" id="search" placeholder="Enter the Country State and City">
+            <label for="autocomplete_search">
+                <input type="text" id="autocomplete_search" placeholder="Enter the Country, State, and City">
             </label>
+            <!-- Remove the hidden input fields for lat and long -->
             <span class="fa-stack">
-                <button class="weatherbtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button class="weatherbtn" onclick="searchNearbyPlaces()"><i
+                        class="fa-solid fa-magnifying-glass"></i></button>
             </span>
-
+            <div class="error">
+                <h1>404</h1>
+                <p>Invalid City Name</p>
+            </div>
+            <div class="weather">
+                <img src="rain.png" alt="" class="icon">
+                <h1 class="temp">22°</h1>
+                <h2 class="city">new york</h2>
+            </div>
+            <div class="details">
+                <div class="col">
+                    <img src="humidity.png" alt="no image">
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p>humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="wind.png" alt="no image">
+                    <div>
+                        <p class="wind">15km/h</p>
+                        <p>Wind Speed</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
     <footer>
         &copy; 2023 Copyright | WeatherSite | All Rights reserved
     </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include the Google Maps API with your key -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFW-NdIF9ZugneQzsZNc81MaBe8Qdr4Zk&libraries=places&callback=initMap"
+        async defer></script>
+
+    <script type="text/javascript">
+        var autocomplete;
+
+        function initMap() {
+            autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete_search'), {
+                types: ['geocode'],
+            });
+        }
+
+        function searchNearbyPlaces() {
+            var place = autocomplete.getPlace();
+            console.log(place);
+            // You can now access place details like place.name, place.geometry.location.lat(), etc.
+        }
+    </script>
+<script>
+    const apikey = '20d7154193673a427be2107264720897';
+    const apiurl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+    const searchbox = document.querySelector('#autocomplete_search');
+    const searchbtn = document.querySelector(".weatherbtn");
+    const image=document.querySelector(".icon");
+
+    async function checkweather(city) {
+        try {
+            const response = await fetch(apiurl + city + `&appid=${apikey}`);
+            if (response.status === 404) {
+                document.querySelector(".error").style.display="block"
+                return;
+            }
+            else{
+            var data = await response.json();
+            document.querySelector('.city').innerHTML = data.name;
+            document.querySelector('.temp').innerHTML = data.main.temp + "°c";
+            document.querySelector('.humidity').innerHTML = data.main.humidity + "%";
+            document.querySelector('.wind').innerHTML = data.wind.speed + "km/h";
+            if(data.weather[0].main=="Clouds"){
+                    image.src="clouds.png";
+            }
+            else if(data.weather[0].main=="Clear"){
+                    image.src="clear.png";
+            }
+            else if(data.weather[0].main=="Rain"){
+                    image.src="rain.png";
+            }
+            else if(data.weather[0].main=="Drizzle"){
+                    image.src="drizzle.png";
+            }
+            else if(data.weather[0].main=="Mist"){
+                    image.src="mist.png";
+            }
+            document.querySelector(".weather").style.display='block';
+            document.querySelector(".details").style.display='flex';
+        }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    searchbtn.addEventListener("click", () => {
+        checkweather(searchbox.value);
+    });
+</script>
 </body>
 
 </html>
