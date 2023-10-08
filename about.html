@@ -1,82 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="about.css">
+  <title>About WeatherSite</title>
+  <style>
+    /* Add your CSS styles for the About page here */
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
   
-    <title>Google map Places Autocomplete - Tutsmake.com</title>
-  
-   <style>
-  
-      .container{
-  
-      padding: 10%;
-  
-      text-align: center;
-  
-     } 
-  
-   </style>
+  </style>
 </head>
+
 <body>
-    <div class="container">
-
-        <div class="row">
-    
-            <div class="col-12"><h2>Google Places Autocomplete InputBox Example Without Showing Map</h2></div>
-    
-            <div class="col-12">
-    
-                <div id="custom-search-input">
-    
-                    <div class="input-group">
-    
-                        <input id="autocomplete_search" name="autocomplete_search" type="text" class="form-control" placeholder="Search" />
-    
-                        <input type="hidden" name="lat">
-    
-                        <input type="hidden" name="long">
-    
-                    </div>
-    
-                </div>
-    
-            </div>
-    
+  <header>
+    <div class="navbar">
+        <div class="heading">
+            <img src="logo.jpg" alt="no image">
+            <h2 class="navtitle">WeatherSite</h2>
         </div>
-    
-    </div>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHaBXR9c0iKpDlWNZq3N-VVJFLuQjfUL8&libraries=places"></script>
+        <ul>
+          <li class="navlinks"><a href="/">Back</a></li>
+        </ul>
+        </nav>
+</header>
 
-<script>
+  <main>
+    <section class="about">
+      <div class="container">
+        <h2>Welcome to WeatherSite</h2>
+        <p>Your go-to destination for all things weather-related. Our mission is to provide you with accurate and
+          up-to-date weather information in a visually engaging and user-friendly way.</p>
+        <p>At WeatherSite, we understand the importance of staying informed about the weather, whether you're planning a
+          weekend getaway, a business trip, or simply deciding what to wear tomorrow. We are dedicated to delivering
+          real-time weather forecasts, temperature updates, and detailed weather data for locations around the world.
+        </p>
+      </div>
+    </section>
 
-  google.maps.event.addDomListener(window, 'load', initialize);
+    <section class="why-choose">
+      <div class="container">
+        <h2>Why Choose WeatherSite?</h2>
+        <p>Our website isn't just about weather; it's about providing you with an immersive and enjoyable experience.
+          We've incorporated animations and user-friendly features to make navigating and understanding weather data a
+          breeze. Whether it's the gentle swaying of leaves on our background trees or the seamless transitions between
+          pages, we've designed WeatherSite with your comfort and convenience in mind.</p>
+      </div>
+    </section>
 
-    function initialize() {
+    <section class="key-features">
+      <div class="container">
+        <h2>Key Features</h2>
+        <ul>
+          <li>Real-Time Updates: Stay in the know with our continuously updated weather information, ensuring you're
+            always prepared for changing conditions.</li>
+          <li>Intuitive Search: Easily find weather data for any location by entering the city, state, or country in our
+            search bar.</li>
+          <li>Detailed Forecasts: Get comprehensive weather forecasts, including temperature, humidity, and wind speed,
+            at a glance.</li>
+          <li>Stunning Visuals: Our website incorporates stunning background images and dynamic animations to provide
+            you with a visually pleasing experience.</li>
+          <li>Responsive Design: Whether you're on your desktop, tablet, or mobile phone, WeatherSite adapts to your
+            device for a seamless experience.</li>
+        </ul>
+      </div>
+    </section>
 
-      var input = document.getElementById('autocomplete_search');
+    <section class="join-us">
+      <div class="container">
+        <h2>Join Us on This Weather Journey</h2>
+        <p>WeatherSite is more than just a weather website; it's your partner in staying informed and making informed
+          decisions about your day. We're committed to making your experience enjoyable, informative, and reliable. Join
+          us on this weather journey, and never be caught off guard by the elements again. Explore the world through
+          WeatherSite, where weather meets art and functionality.</p>
+      </div>
+    </section>
+  </main>
 
-      var autocomplete = new google.maps.places.Autocomplete(input);
+  <footer>
+    &copy; 2023 Copyright | WeatherSite | All Rights reserved
+  </footer>
 
-      autocomplete.addListener('place_changed', function () {
+  <script>
+    const sections = document.querySelectorAll('.about, .why-choose, .key-features, .join-us');
 
-      var place = autocomplete.getPlace();
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5
+    };
 
-      // place variable will have all the information you are looking for.
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.intersectionRatio > 0) {
+          entry.target.classList.add('fade-in');
+        }
+      });
+    }, options);
 
-      $('#lat').val(place.geometry['location'].lat());
-
-      $('#long').val(place.geometry['location'].lng());
-
+    sections.forEach(section => {
+      observer.observe(section);
     });
-
-  }
-
-</script>
+  </script>
 </body>
+
 </html>
