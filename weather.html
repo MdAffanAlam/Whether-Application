@@ -28,10 +28,36 @@
         }
 
         /* Add the CSS rule to remove the border below the input element */
-        .weathercontainer input {
-            width: 80%;
-            padding: 15px;
-            border-radius: 20px;
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-container label {
+            width: 68%;
+        }
+
+        .search-container label input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease-in-out, tranform 0.3s ease-in-out;
+        }
+
+        .search-container label input:hover {
+            transform: scale(1.03);
+        }
+
+        .search-container label input:focus {
+            border-color: #007BFF;
+        }
+
+        .fa-stack {
+            margin-left: 2.4em;
+            margin-bottom: 8px;
         }
 
         .fa-stack i {
@@ -39,15 +65,11 @@
         }
 
         .weatherbtn {
-            width: 34px;
-            height: 34px;
+            width: 44px;
+            height: 40px;
             color: white;
-            margin-bottom: 29px;
-
-
-            border-radius: 17px;
-            padding: 8px;
-            /* Remove padding property from here */
+            margin-bottom: 33px;
+            border-radius: 20px;
         }
 
         .details {
@@ -67,8 +89,15 @@
         }
 
         .weather {
-            margin-right: 66px;
             display: none;
+            margin-top: 25px;
+        }
+
+        .extraweather {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
         }
 
         .temp {
@@ -95,8 +124,15 @@
             display: none;
         }
 
+        .error img {
+            width: 28em;
+        }
+
         .error p {
-            margin-top: 6px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            font-size: xx-large;
+            font-family: monospace;
         }
     </style>
 </head>
@@ -109,45 +145,46 @@
                 <h2 class="navtitle">WeatherSite</h2>
             </div>
             <ul>
-
-
-                <li class="navlinks"><a href="/">Back</a></li>
+                <li class="navlinks"><a href="/"><i class="fas fa-arrow-left" ></i> Back</a></li>
 
             </ul>
             </nav>
     </header>
     <main>
         <div class="weathercontainer">
-            <label for="autocomplete_search">
-                <input type="text" id="autocomplete_search" placeholder="Enter the Country, State, and City">
-            </label>
-            <!-- Remove the hidden input fields for lat and long -->
-            <span class="fa-stack">
-                <button class="weatherbtn" onclick="searchNearbyPlaces()"><i
-                        class="fa-solid fa-magnifying-glass"></i></button>
-            </span>
+            <div class="search-container">
+                <label for="autocomplete_search">
+                    <input type="text" id="autocomplete_search" placeholder="Enter the Country, State, and City">
+                </label>
+                <div class="fa-stack">
+                    <button class="weatherbtn" onclick="searchNearbyPlaces()">
+                        <i class="fa-solid fa-magnifying-glass fa-lg" ></i>
+                    </button>
+                </div>
+            </div>
+
             <div class="error">
-                <h1>404</h1>
                 <p>Invalid City Name</p>
+                <img src="404err.jpg" alt="">
             </div>
             <div class="weather">
                 <img src="rain.png" alt="" class="icon">
-                <h1 class="temp">22°</h1>
-                <h2 class="city">new york</h2>
-                <!--<div class="extraweather">
-                    <p class="tempmax">22</p>
-                    <p class="tempmin">12</p>
-                </div>-->
+                <h1 class="temp"></h1>
+              <!-- <div class="extraweather">
+                    <p class="tempmax">Temp-max: </p>
+                    <p class="tempmin">Temp-min: </p>
+                </div>--> 
+                <h2 class="city"></h2>
             </div>
             <div class="details">
-                <div class="col">
+                <div class="col col1">
                     <img src="humidity.png" alt="no image">
                     <div>
-                        <p class="humidity">50%</p>
+                        <p class="humidity">80%</p>
                         <p>humidity</p>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col col2">
                     <img src="wind.png" alt="no image">
                     <div>
                         <p class="wind">15km/h</p>
@@ -160,28 +197,7 @@
     <footer>
         &copy; 2023 Copyright | WeatherSite | All Rights reserved
     </footer>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Include the Google Maps API with your key -->
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFW-NdIF9ZugneQzsZNc81MaBe8Qdr4Zk&libraries=places&callback=initMap"
-        async defer></script>
-
-    <script type="text/javascript">
-        var autocomplete;
-
-        function initMap() {
-            autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete_search'), {
-                types: ['geocode'],
-            });
-        }
-
-        function searchNearbyPlaces() {
-            var place = autocomplete.getPlace();
-            console.log(place);
-            // You can now access place details like place.name, place.geometry.location.lat(), etc.
-        }
-    </script>
     <script>
         const apikey = '20d7154193673a427be2107264720897';
         const apiurl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
@@ -201,6 +217,8 @@
                     var data = await response.json();
                     document.querySelector('.city').innerHTML = data.name;
                     document.querySelector('.temp').innerHTML = data.main.temp + "°c";
+                 //   document.querySelector('.tempmax').innerHTML = data.main.temp_max + "°c";
+                  //  document.querySelector('.tempmin').innerHTML = data.main.temp_min + "°c";
                     document.querySelector('.humidity').innerHTML = data.main.humidity + "%";
                     document.querySelector('.wind').innerHTML = data.wind.speed + "km/h";
                     if (data.weather[0].main == "Clouds") {
@@ -218,8 +236,50 @@
                     else if (data.weather[0].main == "Mist") {
                         image.src = "mist.png";
                     }
-                    document.querySelector(".weather").style.display = 'block';
+                    document.querySelector(".weather").style.display = 'flex';
+                    document.querySelector(".weather").style.flexDirection = 'column';
+                    document.querySelector(".weather").style.justifyContent = 'center';
+                    document.querySelector(".weather").style.alignItems = 'center';
+                    document.querySelector(".weather").style.gap = '20px';
+
+                    const iconElement = document.querySelector(".icon");
+                    iconElement.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
+                    iconElement.style.backdropFilter = 'blur(6px) brightness(100%)';
+                    iconElement.style.borderRadius = '80%';
+                    iconElement.style.padding = '10px';
+
+                    const tempElement = document.querySelector(".temp");
+                    tempElement.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
+                    tempElement.style.backdropFilter = 'blur(6px) brightness(100%)';
+                    tempElement.style.borderRadius = '15%';
+                    tempElement.style.padding = '10px';
+
+                    const cityElement = document.querySelector(".city");
+                    cityElement.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
+                    cityElement.style.backdropFilter = 'blur(6px) brightness(100%)';
+                    cityElement.style.borderRadius = '10px';
+                    cityElement.style.padding = '5px 10px';
+
                     document.querySelector(".details").style.display = 'flex';
+                    document.querySelector(".details").style.justifyContent = 'center';
+                    document.querySelector(".details").style.alignItems = 'center';
+                    document.querySelector(".details").style.flexWrap = 'wrap';
+                    document.querySelector(".details").style.gap = '65px';
+
+                    const col1Element = document.querySelector(".col1");
+                    col1Element.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
+                    col1Element.style.backdropFilter = 'blur(6px) brightness(100%)';
+                    col1Element.style.borderRadius = '10px';
+                    col1Element.style.padding = '16px 20px';
+
+                    const col2Element = document.querySelector(".col2");
+                    col2Element.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
+                    col2Element.style.backdropFilter = 'blur(6px) brightness(100%)';
+                    col2Element.style.borderRadius = '10px';
+                    col2Element.style.padding = '12px 20px';
+
+
+
                 }
             } catch (error) {
                 console.error(error);
