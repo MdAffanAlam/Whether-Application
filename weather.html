@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check Weather anywhere</title>
+    <title>Check your Weather</title>
+    <link rel="icon" href="favicon.png" type="image/x-icon"> 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <style>
@@ -134,6 +135,12 @@
             font-size: xx-large;
             font-family: monospace;
         }
+
+        @media screen and (min-width: 280px) and (max-width: 500px) {
+            .error img {
+            width: 15em;
+        }
+        }
     </style>
 </head>
 
@@ -145,7 +152,7 @@
                 <h2 class="navtitle">WeatherSite</h2>
             </div>
             <ul>
-                <li class="navlinks"><a href="/"><i class="fas fa-arrow-left" ></i> Back</a></li>
+                <li class="navlinks"><a href="/"><i class="fas fa-arrow-left"></i> Back</a></li>
 
             </ul>
             </nav>
@@ -158,7 +165,7 @@
                 </label>
                 <div class="fa-stack">
                     <button class="weatherbtn" onclick="searchNearbyPlaces()">
-                        <i class="fa-solid fa-magnifying-glass fa-lg" ></i>
+                        <i class="fa-solid fa-magnifying-glass fa-lg"></i>
                     </button>
                 </div>
             </div>
@@ -170,10 +177,10 @@
             <div class="weather">
                 <img src="rain.png" alt="" class="icon">
                 <h1 class="temp"></h1>
-              <!-- <div class="extraweather">
+                <!-- <div class="extraweather">
                     <p class="tempmax">Temp-max: </p>
                     <p class="tempmin">Temp-min: </p>
-                </div>--> 
+                </div>-->
                 <h2 class="city"></h2>
             </div>
             <div class="details">
@@ -211,14 +218,18 @@
                 const response = await fetch(apiurl + city + `&appid=${apikey}`);
                 if (response.status === 404) {
                     document.querySelector(".error").style.display = "block"
+                    
+                    setTimeout(() => {
+                        document.querySelector('.error').style.display = 'none';
+                    }, 6000);
                     return;
                 }
                 else {
                     var data = await response.json();
                     document.querySelector('.city').innerHTML = data.name;
                     document.querySelector('.temp').innerHTML = data.main.temp + "°c";
-                 //   document.querySelector('.tempmax').innerHTML = data.main.temp_max + "°c";
-                  //  document.querySelector('.tempmin').innerHTML = data.main.temp_min + "°c";
+                    //   document.querySelector('.tempmax').innerHTML = data.main.temp_max + "°c";
+                    //  document.querySelector('.tempmin').innerHTML = data.main.temp_min + "°c";
                     document.querySelector('.humidity').innerHTML = data.main.humidity + "%";
                     document.querySelector('.wind').innerHTML = data.wind.speed + "km/h";
                     if (data.weather[0].main == "Clouds") {
@@ -244,19 +255,19 @@
 
                     const iconElement = document.querySelector(".icon");
                     iconElement.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
-                    iconElement.style.backdropFilter = 'blur(6px) brightness(100%)';
+                    iconElement.style.backdropFilter = 'blur(4px) brightness(100%)';
                     iconElement.style.borderRadius = '80%';
                     iconElement.style.padding = '10px';
 
                     const tempElement = document.querySelector(".temp");
                     tempElement.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
-                    tempElement.style.backdropFilter = 'blur(6px) brightness(100%)';
+                    tempElement.style.backdropFilter = 'blur(4px) brightness(100%)';
                     tempElement.style.borderRadius = '15%';
                     tempElement.style.padding = '10px';
 
                     const cityElement = document.querySelector(".city");
                     cityElement.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
-                    cityElement.style.backdropFilter = 'blur(6px) brightness(100%)';
+                    cityElement.style.backdropFilter = 'blur(4px) brightness(100%)';
                     cityElement.style.borderRadius = '10px';
                     cityElement.style.padding = '5px 10px';
 
@@ -264,20 +275,24 @@
                     document.querySelector(".details").style.justifyContent = 'center';
                     document.querySelector(".details").style.alignItems = 'center';
                     document.querySelector(".details").style.flexWrap = 'wrap';
-                    document.querySelector(".details").style.gap = '65px';
+                    document.querySelector(".details").style.gap = ' 30px 35px';
 
                     const col1Element = document.querySelector(".col1");
                     col1Element.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
-                    col1Element.style.backdropFilter = 'blur(6px) brightness(100%)';
+                    col1Element.style.backdropFilter = 'blur(4px) brightness(100%)';
                     col1Element.style.borderRadius = '10px';
-                    col1Element.style.padding = '16px 20px';
+                    col1Element.style.padding = '18px 20px';
 
                     const col2Element = document.querySelector(".col2");
                     col2Element.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
-                    col2Element.style.backdropFilter = 'blur(6px) brightness(100%)';
+                    col2Element.style.backdropFilter = 'blur(4px) brightness(100%)';
                     col2Element.style.borderRadius = '10px';
                     col2Element.style.padding = '12px 20px';
 
+                    setTimeout(() => {
+                        document.querySelector('.weather').style.display = 'none';
+                        document.querySelector('.details').style.display = 'none';
+                    }, 10000);
 
 
                 }
