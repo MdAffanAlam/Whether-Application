@@ -196,8 +196,8 @@
 
         <div class="weathercontainer">
             <div class="selectSerach">
-                <h3 class="first">Get Location</h3>
-                <h3 class="second">Search Location</h3>
+                <h3 class="first">Your Weather</h3>
+                <h3 class="second">Search Weather</h3>
             </div>
             <div class="locationSearch">
                 <h3 class="heading-location">Grant access to your location</h3>
@@ -257,8 +257,15 @@
         searchoption1.addEventListener('click', () => {
             if (elementToToggle1.style.display === 'flex') {
                 elementToToggle1.style.display = 'none';
+                
             } else {
                 elementToToggle1.style.display = 'flex';
+                searchoption1.style.backgroundColor='whitesmoke';
+                searchoption1.style.color='black';
+                searchoption1.style.borderRadius='10px';
+                searchoption1.style.padding='10px';
+                searchoption2.style.backgroundColor='';
+                searchoption2.style.color='white';
                 elementToToggle2.style.display = 'none';
             }
         });
@@ -268,6 +275,12 @@
                 elementToToggle2.style.display = 'none';
             } else {
                 elementToToggle2.style.display = 'flex';
+                searchoption2.style.backgroundColor='whitesmoke';
+                searchoption2.style.color='black';
+                searchoption2.style.borderRadius='10px';
+                searchoption2.style.padding='10px';
+                searchoption1.style.backgroundColor='';
+                searchoption1.style.color='white';
                 elementToToggle1.style.display = 'none';
             }
         });
