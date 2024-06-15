@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Check your Weather</title>
-    <link rel="icon" href="favicon.png" type="image/x-icon"> 
+    <link rel="icon" href="favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <style>
@@ -14,6 +14,7 @@
             margin: 0;
             padding: 0;
         }
+
 
         .weathercontainer {
             background-image: url('bg1.jpg');
@@ -25,12 +26,12 @@
             width: 100%;
             height: 100vh;
             color: rgb(0, 0, 0);
-            filter: brightness(0.6);
+            filter: brightness(0.8);
         }
 
         /* Add the CSS rule to remove the border below the input element */
         .search-container {
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
         }
@@ -136,10 +137,43 @@
             font-family: monospace;
         }
 
-        @media screen and (min-width: 280px) and (max-width: 500px) {
-            .error img {
-            width: 15em;
+        .locationSearch {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 6.5em;
+            gap: 30px;
+            color: white;
+
+
         }
+
+        .heading-location {
+            font-size: xx-large;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .selectSerach {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            gap: 20px 40px;
+            cursor: pointer;
+            margin-bottom: 35px;
+        }
+
+        @media screen and (min-width: 280px) and (max-width: 500px) {
+            .navbar {
+                flex-direction: row;
+            }
+
+            .error img {
+                width: 15em;
+            }
         }
     </style>
 </head>
@@ -158,7 +192,17 @@
             </nav>
     </header>
     <main>
+
+
         <div class="weathercontainer">
+            <div class="selectSerach">
+                <h3 class="first">Get Location</h3>
+                <h3 class="second">Search Location</h3>
+            </div>
+            <div class="locationSearch">
+                <h3 class="heading-location">Grant access to your location</h3>
+                <i class="fas fa-map-marker-alt fa-4x" style="color: rgb(58, 211, 58); cursor: pointer;"></i>
+            </div>
             <div class="search-container">
                 <label for="autocomplete_search">
                     <input type="text" id="autocomplete_search" placeholder="Enter the Country, State, and City">
@@ -204,7 +248,50 @@
     <footer>
         &copy; 2023 Copyright | WeatherSite | All Rights reserved
     </footer>
+    <script>
+        const searchoption1 = document.querySelector('.first');
+        const searchoption2 = document.querySelector('.second');
+        const elementToToggle1 = document.querySelector('.locationSearch');
+        const elementToToggle2 = document.querySelector('.search-container');
 
+        searchoption1.addEventListener('click', () => {
+            if (elementToToggle1.style.display === 'flex') {
+                elementToToggle1.style.display = 'none';
+            } else {
+                elementToToggle1.style.display = 'flex';
+                elementToToggle2.style.display = 'none';
+            }
+        });
+
+        searchoption2.addEventListener('click', () => {
+            if (elementToToggle2.style.display === 'flex') {
+                elementToToggle2.style.display = 'none';
+            } else {
+                elementToToggle2.style.display = 'flex';
+                elementToToggle1.style.display = 'none';
+            }
+        });
+ 
+
+        //get user location
+        const mapMarkerIcon = document.querySelector('.locationSearch i');
+
+        mapMarkerIcon.addEventListener('click', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        
+                    },
+                    (error) => {
+                        console.error('Error getting location:', error);
+                    }
+                );
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+            }
+        });
+
+    </script>
     <script>
         const apikey = '20d7154193673a427be2107264720897';
         const apiurl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
@@ -218,7 +305,7 @@
                 const response = await fetch(apiurl + city + `&appid=${apikey}`);
                 if (response.status === 404) {
                     document.querySelector(".error").style.display = "block"
-                    
+
                     setTimeout(() => {
                         document.querySelector('.error').style.display = 'none';
                     }, 6000);
@@ -275,7 +362,7 @@
                     document.querySelector(".details").style.justifyContent = 'center';
                     document.querySelector(".details").style.alignItems = 'center';
                     document.querySelector(".details").style.flexWrap = 'wrap';
-                    document.querySelector(".details").style.gap = ' 30px 35px';
+                    document.querySelector(".details").style.gap = '30px 35px';
 
                     const col1Element = document.querySelector(".col1");
                     col1Element.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';

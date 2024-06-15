@@ -40,7 +40,7 @@ header {
 }
 
 .navbar ul li {
-    padding: 24px;
+    padding: 15px;
     list-style: none;
     color: white;
 }
@@ -204,14 +204,15 @@ footer {
 }
 
 
-@media screen and (min-width: 280px) and (max-width: 410px) {
+@media screen and (min-width: 260px) and (max-width: 410px) {
     .navbar ul {
-        margin-top: -8px;
+        margin-top: -10px;
     }
 
     .contact-form {
         width: 50%;
         margin: 20px;
         padding: 15px 40px;
+        padding-right: 55px;
     }
 }
