@@ -410,9 +410,9 @@
                     document.querySelector('.temp').innerHTML = data.main.temp + " °C";
                     //   document.querySelector('.tempmax').innerHTML = data.main.temp_max + "°c";
                     //  document.querySelector('.tempmin').innerHTML = data.main.temp_min + "°c";
-                    document.querySelector('.humidity').innerHTML = data.main.humidity + " %";
-                    document.querySelector('.wind').innerHTML = data.wind.speed + " km/h";
-                    document.querySelector('.clouds').innerHTML =data.clouds.all + " %";
+                    document.querySelector('.humidity').innerHTML = data.main.humidity + "%";
+                    document.querySelector('.wind').innerHTML = data.wind.speed + "km/h";
+                    document.querySelector('.clouds').innerHTML =data.clouds.all + "%";
                     if (data.weather[0].main == "Clouds") {
                         image.src = "clouds.png";
                     }
