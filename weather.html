@@ -24,7 +24,7 @@
             text-align: center;
             padding: 100px 0;
             width: 100%;
-            height: 112vh;
+            height: 117vh;
             color: rgb(0, 0, 0);
             filter: brightness(0.8);
         }
@@ -104,11 +104,11 @@
 
         .temp {
             color: white;
-            font-size: 50px;
+            font-size: 40px;
         }
 
         .city {
-            font-size: 36px;
+            font-size: 28px;
             color: white;
         }
 
@@ -139,16 +139,15 @@
 
         .locationSearch {
             transition: display 0.4s;
-            display: none;
+            display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             margin-top: 6.5em;
             gap: 30px;
             color: white;
-
-
         }
+
 
         .heading-location {
             font-size: xx-large;
@@ -169,11 +168,29 @@
         }
 
         .btn-access {
+            all: unset;
             padding: 9px 7px;
             border-radius: 10px;
             background-color: rgb(102, 102, 235);
             color: black;
             transition: background-color 0.4s, transform 0.4s;
+        }
+
+        .first {
+            background-color: white;
+            padding: 8px;
+            border-radius: 10px;
+            color: black;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .second {
+            padding: 8px;
+            border-radius: 10px;
+            color: white;
+            font-size: larger;
+            font-weight: bold;
         }
 
         .btn-access:hover {
@@ -241,7 +258,7 @@
                     <input type="text" id="autocomplete_search" placeholder="Enter the Country, State, and City">
                 </label>
                 <div class="fa-stack">
-                    <button class="weatherbtn" onclick="searchNearbyPlaces()">
+                    <button class="weatherbtn">
                         <i class="fa-solid fa-magnifying-glass fa-lg"></i>
                     </button>
                 </div>
@@ -253,12 +270,12 @@
             </div>
             <div class="weather">
                 <img src="rain.png" alt="" class="icon">
-                <h1 class="temp"></h1>
+                <h1 class="temp">35.50 °C</h1>
                 <!-- <div class="extraweather">
                     <p class="tempmax">Temp-max: </p>
                     <p class="tempmin">Temp-min: </p>
                 </div>-->
-                <h2 class="city"></h2>
+                <h2 class="city">Ranchi</h2>
             </div>
             <div class="details">
                 <div class="col col1">
@@ -275,6 +292,13 @@
                         <p>Wind Speed</p>
                     </div>
                 </div>
+                <div class="col col3">
+                    <img src="cloud.png" alt="Clouds" width="55" height="65" >
+                    <div>
+                        <p class="clouds">50%</p>
+                        <p>Cloudiness</p>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -286,6 +310,7 @@
         const searchoption2 = document.querySelector('.second');
         const elementToToggle1 = document.querySelector('.locationSearch');
         const elementToToggle2 = document.querySelector('.search-container');
+        
 
         searchoption1.addEventListener('click', () => {
             if (elementToToggle1.style.display === 'flex') {
@@ -317,7 +342,7 @@
                 searchoption2.style.color = 'black';
                 searchoption2.style.borderRadius = '10px';
                 searchoption2.style.padding = '8px';
-                searchoption1.style.backgroundColor = '';
+                searchoption1.style.backgroundColor = 'transparent'; 
                 searchoption1.style.color = 'white';
                 elementToToggle1.style.display = 'none';
             }
@@ -330,8 +355,8 @@
 
         mapMarkerIcon.addEventListener('click', () => {
             if (navigator.geolocation) {
-                loadingDiv.style.display = 'block';
                 elementToToggle1.style.display = 'none';
+                loadingDiv.style.display = 'block';
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         const { latitude, longitude } = position.coords;
@@ -381,12 +406,13 @@
                 else {
                     var data = await response.json();
                     loadingDiv.style.display = 'none';
-                    document.querySelector('.city').innerHTML = data.name;
-                    document.querySelector('.temp').innerHTML = data.main.temp + "°c";
+                    document.querySelector('.city').innerHTML = data.name +", "+ data.sys.country;
+                    document.querySelector('.temp').innerHTML = data.main.temp + " °C";
                     //   document.querySelector('.tempmax').innerHTML = data.main.temp_max + "°c";
                     //  document.querySelector('.tempmin').innerHTML = data.main.temp_min + "°c";
-                    document.querySelector('.humidity').innerHTML = data.main.humidity + "%";
-                    document.querySelector('.wind').innerHTML = data.wind.speed + "km/h";
+                    document.querySelector('.humidity').innerHTML = data.main.humidity + " %";
+                    document.querySelector('.wind').innerHTML = data.wind.speed + " km/h";
+                    document.querySelector('.clouds').innerHTML =data.clouds.all + " %";
                     if (data.weather[0].main == "Clouds") {
                         image.src = "clouds.png";
                     }
@@ -406,10 +432,11 @@
                     document.querySelector(".weather").style.flexDirection = 'column';
                     document.querySelector(".weather").style.justifyContent = 'center';
                     document.querySelector(".weather").style.alignItems = 'center';
-                    document.querySelector(".weather").style.gap = '20px';
+                    document.querySelector(".weather").style.gap = '16px';
 
                     const iconElement = document.querySelector(".icon");
                     iconElement.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
+                    iconElement.style.width='10em';
                     iconElement.style.backdropFilter = 'blur(4px) brightness(100%)';
                     iconElement.style.borderRadius = '80%';
                     iconElement.style.padding = '10px';
@@ -417,7 +444,7 @@
                     const tempElement = document.querySelector(".temp");
                     tempElement.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
                     tempElement.style.backdropFilter = 'blur(4px) brightness(100%)';
-                    tempElement.style.borderRadius = '15%';
+                    tempElement.style.borderRadius = '9%';
                     tempElement.style.padding = '10px';
 
                     const cityElement = document.querySelector(".city");
@@ -430,7 +457,7 @@
                     document.querySelector(".details").style.justifyContent = 'center';
                     document.querySelector(".details").style.alignItems = 'center';
                     document.querySelector(".details").style.flexWrap = 'wrap';
-                    document.querySelector(".details").style.gap = '30px 35px';
+                    document.querySelector(".details").style.gap = '20px 35px';
 
                     const col1Element = document.querySelector(".col1");
                     col1Element.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
@@ -444,10 +471,11 @@
                     col2Element.style.borderRadius = '10px';
                     col2Element.style.padding = '12px 20px';
 
-                    setTimeout(() => {
-                        document.querySelector('.weather').style.display = 'none';
-                        document.querySelector('.details').style.display = 'none';
-                    }, 20000);
+                    const col3Element = document.querySelector(".col3");
+                    col3Element.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
+                    col3Element.style.backdropFilter = 'blur(4px) brightness(100%)';
+                    col3Element.style.borderRadius = '10px';
+                    col3Element.style.padding = '18px 20px';
 
 
                 }
@@ -457,6 +485,7 @@
         }
 
         searchbtn.addEventListener("click", () => {
+            loadingDiv.style.display = 'block';
             checkweather(searchbox.value);
         });
     </script>
