@@ -397,10 +397,11 @@
                 const response = await fetch(apiurl + city + `&appid=${apikey}`);
                 if (response.status === 404) {
                     document.querySelector(".error").style.display = "block"
+                    loadingDiv.style.display = 'none';
 
                     setTimeout(() => {
                         document.querySelector('.error').style.display = 'none';
-                    }, 6500);
+                    }, 10000);
                     return;
                 }
                 else {
