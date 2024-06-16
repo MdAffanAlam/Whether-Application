@@ -208,7 +208,15 @@ footer {
     .navbar ul {
         margin-top: -8px;
     }
-
+    .navbar img{
+        height: 25px;
+    }
+    .heading h2{
+        margin-top: 11px;
+    }
+    .navbar ul li{
+        margin-right: -4px;
+    }
     .contact-form {
         width: 50%;
         margin: 20px;
