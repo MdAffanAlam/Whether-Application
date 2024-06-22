@@ -73,6 +73,7 @@
             color: white;
             margin-bottom: 33px;
             border-radius: 20px;
+            cursor: pointer;
         }
 
         .details {
@@ -181,6 +182,7 @@
             border-radius: 10px;
             color: black;
             font-size: larger;
+            cursor: pointer;
             font-weight: bold;
             font-family: monospace;
         }
@@ -193,6 +195,7 @@
             display: inline-block;
             font-size: larger;
             font-weight: bold;
+            cursor: pointer;
             font-family: monospace;
         }
 
@@ -272,19 +275,19 @@
                 <p class="access2">Allow Access To Get Weather Information</p>
                 <button class="btn-access">Grant Access</button>
             </div>
-            <div id="loading">
-                <img src="loading.gif" width="150" height="150">
-            </div>
 
-            <div class="search-container">
+            <form class="search-container">
                 <label for="autocomplete_search">
-                    <input type="text" id="autocomplete_search" placeholder="Enter the Country, State, and City">
+                    <input type="text" id="autocomplete_search" class="input-data" placeholder="Enter the Country, State, and City">
                 </label>
                 <div class="fa-stack">
                     <button class="weatherbtn">
                         <i class="fa-solid fa-magnifying-glass fa-lg"></i>
                     </button>
                 </div>
+            </form>
+            <div id="loading">
+                <img src="loading.gif" width="150" height="150">
             </div>
 
             <div class="error">
@@ -425,15 +428,19 @@
                     document.querySelector(".error").style.display = "block"
                     loadingDiv.style.display = 'none';
 
+
                     setTimeout(() => {
                         document.querySelector('.error').style.display = 'none';
-                    }, 10000);
+                    }, 20000);
+                    document.querySelector(".weather").style.display = 'none';
+                    document.querySelector(".details").style.display = 'none';
                     return;
                 }
                 else {
                     var data = await response.json();
-                    console.log(data);
+                    
                     loadingDiv.style.display = 'none';
+                    document.querySelector(".error").style.display = "none";
                     document.querySelector('.city').innerHTML = data.name + ", " + data.sys.country;
                     document.querySelector('.temp').innerHTML = data.main.temp + " °C";
                     //   document.querySelector('.tempmax').innerHTML = data.main.temp_max + "°c";
@@ -465,7 +472,7 @@
                     document.querySelector(".weather").style.gap = '16px';
 
                     const iconElement = document.querySelector(".icon");
-                    iconElement.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
+                  //  iconElement.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
                     iconElement.style.width = '10em';
                     iconElement.style.backdropFilter = 'blur(4px) brightness(100%)';
                     iconElement.style.borderRadius = '80%';
@@ -514,10 +521,18 @@
             }
         }
 
-        searchbtn.addEventListener("click", () => {
+       
+         const inputData= document.querySelector(".search-container");
+         inputData.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            if (inputData.value === "") return;
             loadingDiv.style.display = 'block';
             checkweather(searchbox.value);
-        });
+            inputData.value = "";
+
+         })
+
+             
     </script>
 </body>
 
