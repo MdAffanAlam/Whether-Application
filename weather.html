@@ -34,6 +34,7 @@
             display: none;
             justify-content: center;
             align-items: center;
+            margin-top: 10px;
         }
 
         .search-container label {
@@ -102,6 +103,12 @@
             gap: 15px;
         }
 
+        .imgname{
+            color: white;
+            font-family: monospace;
+            font-size: large;
+        }
+
         .temp {
             color: white;
             font-size: 40px;
@@ -144,7 +151,7 @@
             align-items: center;
             flex-direction: column;
             margin-top: 6.5em;
-            gap: 30px;
+            gap: 22px;
             color: white;
         }
 
@@ -155,23 +162,13 @@
             font-weight: bold;
         }
 
-        .selectSerach {
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            gap: 20px 33px;
-            cursor: pointer;
-            margin-bottom: 35px;
-            font-family: monospace;
-        }
 
         .btn-access {
             all: unset;
             padding: 9px 7px;
             border-radius: 10px;
-            background-color: rgb(102, 102, 235);
+            background-color: rgb(115 255 229);
             color: black;
             transition: background-color 0.4s, transform 0.4s;
         }
@@ -179,18 +176,36 @@
         .first {
             background-color: white;
             padding: 8px;
+            display: inline-block;
+            margin: 15px;
             border-radius: 10px;
             color: black;
             font-size: larger;
             font-weight: bold;
+            font-family: monospace;
         }
 
         .second {
             padding: 8px;
             border-radius: 10px;
             color: white;
+            display: inline-block;
             font-size: larger;
             font-weight: bold;
+            font-family: monospace;
+        }
+
+        .access1 {
+            color: white;
+            font-size: xx-large;
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        .access2 {
+            color: white;
+            font-size: larger;
+            font-family: monospace;
         }
 
         .btn-access:hover {
@@ -220,6 +235,12 @@
                 width: 15em;
             }
         }
+
+        @media screen and (max-width: 310px) {
+            .search-container {
+                margin-top: 15px;
+            }
+        }
     </style>
 </head>
 
@@ -240,17 +261,18 @@
 
 
         <div class="weathercontainer">
-            <div class="selectSerach">
-                <div class="first">Your Weather</div>
-                <div class="second">Search Weather</div>
-            </div>
+
+            <div class="first">Your Weather</div>
+            <div class="second">Search Weather</div>
+
             <div class="locationSearch">
-                <i class="fas fa-map-marker-alt fa-4x" style="color: rgb(58, 211, 58); cursor: pointer;"></i>
-                <h3 class="heading-location">Grant access to your location</h3>
+                <img src="locationImg.png" width="80" height="80" loading="lazy" />
+                <p class="access1">Grant Location Access</p>
+                <p class="access2">Allow Access To Get Weather Information</p>
                 <button class="btn-access">Grant Access</button>
             </div>
             <div id="loading">
-                <img src="loading1.gif" width="150" height="150">
+                <img src="loading.gif" width="150" height="150">
             </div>
 
             <div class="search-container">
@@ -269,13 +291,16 @@
                 <img src="404err.jpg" alt="">
             </div>
             <div class="weather">
-                <img src="rain.png" alt="" class="icon">
+                <h2 class="city">Ranchi</h2>
+                <div class="icon"><img src="rain.png" alt="" width="140" height="140">
+                    <h3 class="imgname">haze</h3>
+                </div>
                 <h1 class="temp">35.50 °C</h1>
                 <!-- <div class="extraweather">
                     <p class="tempmax">Temp-max: </p>
                     <p class="tempmin">Temp-min: </p>
                 </div>-->
-                <h2 class="city">Ranchi</h2>
+            
             </div>
             <div class="details">
                 <div class="col col1">
@@ -293,7 +318,7 @@
                     </div>
                 </div>
                 <div class="col col3">
-                    <img src="cloud.png" alt="Clouds" width="55" height="65" >
+                    <img src="cloud.png" alt="Clouds" width="55" height="65">
                     <div>
                         <p class="clouds">50%</p>
                         <p>Cloudiness</p>
@@ -310,7 +335,7 @@
         const searchoption2 = document.querySelector('.second');
         const elementToToggle1 = document.querySelector('.locationSearch');
         const elementToToggle2 = document.querySelector('.search-container');
-        
+
 
         searchoption1.addEventListener('click', () => {
             if (elementToToggle1.style.display === 'flex') {
@@ -342,7 +367,7 @@
                 searchoption2.style.color = 'black';
                 searchoption2.style.borderRadius = '10px';
                 searchoption2.style.padding = '8px';
-                searchoption1.style.backgroundColor = 'transparent'; 
+                searchoption1.style.backgroundColor = 'transparent';
                 searchoption1.style.color = 'white';
                 elementToToggle1.style.display = 'none';
             }
@@ -406,16 +431,19 @@
                 }
                 else {
                     var data = await response.json();
+                    console.log(data);
                     loadingDiv.style.display = 'none';
-                    document.querySelector('.city').innerHTML = data.name +", "+ data.sys.country;
+                    document.querySelector('.city').innerHTML = data.name + ", " + data.sys.country;
                     document.querySelector('.temp').innerHTML = data.main.temp + " °C";
                     //   document.querySelector('.tempmax').innerHTML = data.main.temp_max + "°c";
                     //  document.querySelector('.tempmin').innerHTML = data.main.temp_min + "°c";
                     document.querySelector('.humidity').innerHTML = data.main.humidity + "%";
                     document.querySelector('.wind').innerHTML = data.wind.speed + "km/h";
-                    document.querySelector('.clouds').innerHTML =data.clouds.all + "%";
+                    document.querySelector('.clouds').innerHTML = data.clouds.all + "%";
+                    document.querySelector('.imgname').innerHTML = data.weather[0].main;
                     if (data.weather[0].main == "Clouds") {
                         image.src = "clouds.png";
+
                     }
                     else if (data.weather[0].main == "Clear") {
                         image.src = "clear.png";
@@ -437,7 +465,7 @@
 
                     const iconElement = document.querySelector(".icon");
                     iconElement.style.backgroundColor = 'rgba(247, 243, 243, 0.2)';
-                    iconElement.style.width='10em';
+                    iconElement.style.width = '10em';
                     iconElement.style.backdropFilter = 'blur(4px) brightness(100%)';
                     iconElement.style.borderRadius = '80%';
                     iconElement.style.padding = '10px';
